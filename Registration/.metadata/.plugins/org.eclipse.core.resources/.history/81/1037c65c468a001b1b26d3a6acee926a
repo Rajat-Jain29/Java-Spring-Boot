@@ -1,0 +1,67 @@
+
+import java.sql.*;
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class Login
+ */
+@WebServlet("/Login")
+public class Login extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	Connection con;
+	Statement st;
+	String q;
+	ResultSet rs;
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public Login() {
+        super();
+        try{
+        	Class.forName("com.mysql.jdbc.Driver");
+            con=DriverManager.getConnection("jdbc:mysql://localhost:3306/reg","root","");
+            st=con.createStatement();
+         
+	       }
+	       catch(Exception e){
+	    	   System.out.println(e);
+	       }
+       
+        
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse res)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse res) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		
+		
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		String pwd=request.getParameter("password");
+		String email=request.getParameter("email");
+		q="select * from regi where email = '"+email +"' and user = '"+un+"'";
+		try {
+			rs=st.executeQuery(q);
+			res.getWriter().print("Login Sucessfully");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+}

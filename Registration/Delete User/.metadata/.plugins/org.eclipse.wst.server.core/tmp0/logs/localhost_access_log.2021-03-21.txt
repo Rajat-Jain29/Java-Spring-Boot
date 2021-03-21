@@ -1,0 +1,8 @@
+127.0.0.1 - - [21/Mar/2021:19:31:38 +0530] "GET / HTTP/1.1" 404 751
+0:0:0:0:0:0:0:1 - - [21/Mar/2021:19:31:39 +0530] "GET /Registration/Login HTTP/1.1" 200 -
+0:0:0:0:0:0:0:1 - - [21/Mar/2021:19:31:57 +0530] "GET /Registration/log.html HTTP/1.1" 200 6287
+0:0:0:0:0:0:0:1 - - [21/Mar/2021:19:32:03 +0530] "GET /Registration/reg.html HTTP/1.1" 200 4137
+0:0:0:0:0:0:0:1 - - [21/Mar/2021:19:32:05 +0530] "GET /Registration/reg.html HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [21/Mar/2021:19:32:05 +0530] "GET /Registration/Login HTTP/1.1" 200 -
+0:0:0:0:0:0:0:1 - - [21/Mar/2021:19:32:05 +0530] "GET /Registration/log.html HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [21/Mar/2021:19:32:05 +0530] "GET /Registration/Login HTTP/1.1" 200 -

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="Delete User">
+        <property name="context-root" value="Delete_User"/>
+        <property name="java-output-path" value="/Delete User/build/classes"/>
+    </wb-module>
+</project-modules>

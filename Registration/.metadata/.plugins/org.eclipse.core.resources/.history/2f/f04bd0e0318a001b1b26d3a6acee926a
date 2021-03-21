@@ -1,0 +1,47 @@
+
+	
+	package java.servlet.http;
+	import java.io.IOException;
+
+	import java.io.PrintWriter;
+	import java.sql.Connection;
+	import java.sql.DriverManager;
+	import java.sql.Statement;
+
+	import javax.jws.WebService;
+	import javax.servlet.http.HttpServlet;
+	import javax.servlet.http.HttpServletRequest;
+	import javax.servlet.http.HttpServletResponse;
+	import java.sql.*;
+
+	public class Register extends HttpServlet{
+		Connection con;
+		Statement st;
+		String q;
+			public void service(HttpServletRequest request, HttpServletResponse res) throws IOException{
+				Class.forName("java.sql.Driver");
+				con=DriverManager.getConnection("jdbc:mysql://localhost:3306/reg","root","");
+				st=con.createStatement();
+				String name=request.getParameter("Name");
+				String un=request.getParameter("userame");
+				String email=request.getParameter("email");
+				String pwd=request.getParameter("password");
+				String add=request.getParameter("address");
+				int phone=request.getParameter("phone");
+				int pin=request.getParameter("Pincode");
+
+				q="insert into regi value ( '"+name+"','"+un+"','"+email+"','"+pwd+"','"+add+"',"+phone+","+pin+"   ) ";
+				try{
+				st.executeUpdate(q);
+				res.getWriter().print("Data added Sucessfully");
+				}
+				catch(Exception e){
+					res.getWriter().print("OOPS! There is some problem");
+				}
+						}
+	}
+
+
+
+
+

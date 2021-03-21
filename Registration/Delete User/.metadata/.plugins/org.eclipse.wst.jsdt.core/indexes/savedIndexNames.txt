@@ -1,0 +1,6 @@
+INDEX VERSION 1.3+D:\Java\Servelet\Registration\Delete User\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+4030458024.index
+2634576440.index
+357739436.index
+193055006.index
+1193680876.index

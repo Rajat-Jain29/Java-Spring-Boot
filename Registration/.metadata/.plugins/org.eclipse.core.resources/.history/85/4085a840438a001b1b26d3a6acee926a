@@ -1,0 +1,76 @@
+
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.PasswordView;
+
+import java.sql.*;
+
+/**
+ * Servlet implementation class Register
+ */
+@WebServlet("/Register")
+
+public class Register extends HttpServlet {
+	Connection con;
+	Statement st;
+	String q;
+	private static final long serialVersionUID = 1L;
+	 
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public Register() {
+        super();
+        try{
+        	Class.forName("com.mysql.jdbc.Driver");
+            con=DriverManager.getConnection("jdbc:mysql://localhost:3306/reg","root","");
+            st=con.createStatement();
+            System.out.println("SUCCESS");
+	       }
+	       catch(Exception e){
+	    	   System.out.println(e);
+	       }
+       
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse res) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		
+		String name=request.getParameter("name");
+		String un=request.getParameter("username");
+		String email=request.getParameter("email");
+		
+		String pwd=request.getParameter("password");
+		String add=request.getParameter("address");
+		int phone=Integer.parseInt(request.getParameter("phone"));
+		int pin=Integer.parseInt(request.getParameter("pin"));
+
+		q="insert into regi values ( '"+un+"','"+pwd+"','"+email+"','"+name+"','"+add+"',"+phone+","+pin+"   ) ;";
+		try{
+		st.executeUpdate(q);
+		res.getWriter().print("Data added Sucessfully");
+		}
+		catch(Exception e){
+			res.getWriter().print("OOPS! There is some problem " + e);
+		}
+	}
+
+}
