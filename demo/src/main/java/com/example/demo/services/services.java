@@ -8,5 +8,4 @@ public interface services {
 	public List<Course> getCourses();
 	public Course getCourse(long cid);
 	public  Course addc (Course c) ;
-			
 }

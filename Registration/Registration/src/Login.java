@@ -31,8 +31,6 @@ public class Login extends HttpServlet {
 	       catch(Exception e){
 	    	   System.out.println(e);
 	       }
-       
-        
         // TODO Auto-generated constructor stub
     }
 
@@ -40,7 +38,6 @@ public class Login extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse res)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse res) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		
 		
 	}
@@ -52,6 +49,7 @@ public class Login extends HttpServlet {
 		// TODO Auto-generated method stub
 		String pwd=request.getParameter("password");
 		String email=request.getParameter("email");
+		System.out.println(email+"  "+pwd);
 		q="select * from regi where email = '"+email +"' and pwd = '"+pwd+"'";
 		try {
 			rs=st.executeQuery(q);
