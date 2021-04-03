@@ -8,8 +8,11 @@ import java.util.List;
 
 public class FullResponseBuilder {
     public static String getFullResponse(HttpURLConnection con) throws IOException {
-        StringBuilder fullResponseBuilder = new StringBuilder();
-
+    	 BufferedReader in = null;
+        
+    	 StringBuilder fullResponseBuilder = new StringBuilder();
+        
+        	
         fullResponseBuilder.append(con.getResponseCode())
             .append(" ")
             .append(con.getResponseMessage())
@@ -46,18 +49,19 @@ public class FullResponseBuilder {
             streamReader = new InputStreamReader(con.getInputStream());
         }
 
-        BufferedReader in = new BufferedReader(streamReader);
+        in = new BufferedReader(streamReader);
         String inputLine;
         StringBuilder content = new StringBuilder();
         while ((inputLine = in.readLine()) != null) {
             content.append(inputLine);
         }
-
-        in.close();
-
+        
         fullResponseBuilder.append("Response: ")
             .append(content);
-
+        
+    
+        in.close();
         return fullResponseBuilder.toString();
     }
+    
 }
