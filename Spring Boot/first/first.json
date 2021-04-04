@@ -1,0 +1,9 @@
+{
+	"Name" : "Rajat",
+	"Course" :"Spring",
+	"API" : "http://localhost:8080/Registration/Login",
+	"Method" : "POST",
+	"Type" :"application/x-www-form-urlencoded"
+	
+	
+}

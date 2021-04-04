@@ -27,8 +27,7 @@ public class Login extends HttpServlet {
             con=DriverManager.getConnection("jdbc:mysql://localhost:3306/reg","root","");
             st=con.createStatement();
          
-	       }
-	       catch(Exception e){
+	       }	       catch(Exception e){
 	    	   System.out.println(e);
 	       }
         // TODO Auto-generated constructor stub

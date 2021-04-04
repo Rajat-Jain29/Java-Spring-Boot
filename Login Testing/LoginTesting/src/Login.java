@@ -60,7 +60,7 @@ public class Login extends Thread {
 			for(int i=0;i<20;i++) {
 			Login object= new Login();
             object.start();
-           // Thread.sleep(2000);
+            Thread.sleep(2000);
 		}
 		}
 		
