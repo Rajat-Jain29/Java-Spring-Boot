@@ -1,5 +1,8 @@
 package com.example.demo.hello;
 
+
+
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.json.simple.*;
 import org.json.simple.parser.*;
 import java.util.logging.FileHandler;
@@ -11,18 +14,22 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
 
-
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
+
+
 
 @RestController
 public class hello {
@@ -39,21 +46,36 @@ public class hello {
 		Object ob=parser.parse(f);
 		JSONObject obj=(JSONObject) ob;
 		
+		File file = ResourceUtils.getFile("classpath:config/first.json");
+		System.out.println("File Found : " + file.exists());
+		String content = new String(Files.readAllBytes(file.toPath()));
+		
+		System.out.println(content.charAt(2)   );
+		
 	for(int i=0;i<100;i++) {
 		try {  
+			
 			fh = new FileHandler(as);  
 	        logger.addHandler(fh);
 	        SimpleFormatter formatter = new SimpleFormatter();  
 	        fh.setFormatter(formatter);
 	        logger.setLevel(Level.ALL);
 	        logger.addHandler(fh);
+	        
 		url = new URL( (String)obj.get("API") );
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		con.setRequestMethod( (String)obj.get("Method") );
 		Map<String, String> parameters = new HashMap<>();
 		Random ran = new Random();
-		parameters.put("email",""+ran.nextInt(30)+"@gmail.com" );
-		parameters.put("password", "15");
+		
+		
+		parameters.put("email",""+ran.nextInt(30)+(String)obj.get("email") );
+		parameters.put("password",(String)obj.get("pass") );
+		
+		
+		
+		
+		
 		con.setDoOutput(true);
 		con.setRequestProperty("Content-Type", (String)obj.get("Type"));
 		long start = System.nanoTime();
@@ -77,10 +99,13 @@ public class hello {
 			}
 			logger.info( "Current Thread no. :" +Thread.currentThread().getId() + "    Iteration no. "+i+"   Status Code :   " +code+"      API Response:  "+  response.toString() + "   Time taken by API :  "+( elapsed / 1000)+" microseconds" );  
 		}
-			}
+			
+		}	
 		catch(Exception e) {
 			logger.info(" Error Message : "+e.getMessage());
 		}
+		
+		
 		}
 		}
 }
