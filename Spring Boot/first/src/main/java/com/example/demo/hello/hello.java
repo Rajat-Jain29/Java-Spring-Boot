@@ -3,6 +3,7 @@ package com.example.demo.hello;
 
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
+
 import org.json.simple.*;
 import org.json.simple.parser.*;
 import java.util.logging.FileHandler;
@@ -46,11 +47,11 @@ public class hello {
 		Object ob=parser.parse(f);
 		JSONObject obj=(JSONObject) ob;
 		
-		File file = ResourceUtils.getFile("classpath:config/first.json");
-		System.out.println("File Found : " + file.exists());
-		String content = new String(Files.readAllBytes(file.toPath()));
-		
-		System.out.println(content.charAt(2)   );
+		String fileName = "config/first.json";
+        ClassLoader classLoader = getClass().getClassLoader();
+ 
+        File file = new File(classLoader.getResource(fileName).getFile());
+        System.out.println("File Found : " + file.exists());
 		
 	for(int i=0;i<100;i++) {
 		try {  
@@ -65,17 +66,26 @@ public class hello {
 		url = new URL( (String)obj.get("API") );
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		con.setRequestMethod( (String)obj.get("Method") );
+		
 		Map<String, String> parameters = new HashMap<>();
 		Random ran = new Random();
 		
 		
-		parameters.put("email",""+ran.nextInt(30)+(String)obj.get("email") );
-		parameters.put("password",(String)obj.get("pass") );
+//		parameters.put("email",""+ran.nextInt(30)+(String)obj.get("email") );
+//		parameters.put("password",(String)obj.get("pass") );
+		JSONArray jsonArray = (JSONArray) obj.get("Params");
 		
 		
+        //Iterating the contents of the array
+        Iterator<String> iterator = jsonArray.iterator();
+        while(iterator.hasNext()) {
+        	String param[] = iterator.next().split(":");
+        	parameters.put(param[0],param[1]);
+        }
+        
+//		System.out.println(parameters);
 		
-		
-		
+        
 		con.setDoOutput(true);
 		con.setRequestProperty("Content-Type", (String)obj.get("Type"));
 		long start = System.nanoTime();

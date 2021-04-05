@@ -4,6 +4,15 @@
 	"API" : "http://localhost:8080/Registration/Login",
 	"Method" : "POST",
 	"Type" :"application/x-www-form-urlencoded",   
+	"Params" : [
+	
+	"email:22@gmail.com",
+	"pass:15"
+	
+	
+	],
+	
+	
    "email" : "@gmail.com",
    "pass":"15"
 	
