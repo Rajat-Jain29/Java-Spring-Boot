@@ -43,15 +43,15 @@ public class hello {
 	public void a() throws ParseException, IOException {
 		
 		JSONParser parser = new JSONParser();
-		FileReader f=new FileReader("first.json");
+		FileReader f=new FileReader("first1.json");
 		Object ob=parser.parse(f);
 		JSONObject obj=(JSONObject) ob;
-		
-		String fileName = "config/first.json";
-        ClassLoader classLoader = getClass().getClassLoader();
- 
-        File file = new File(classLoader.getResource(fileName).getFile());
-        System.out.println("File Found : " + file.exists());
+//		
+//		String fileName = "config/first.json";
+//        ClassLoader classLoader = getClass().getClassLoader();
+// 
+//        File file = new File(classLoader.getResource(fileName).getFile());
+//        System.out.println("File Found : " + file.exists());
 		
 	for(int i=0;i<100;i++) {
 		try {  

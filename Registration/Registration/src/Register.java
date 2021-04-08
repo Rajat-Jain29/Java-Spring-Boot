@@ -15,7 +15,6 @@ import java.sql.*;
  * Servlet implementation class Register
  */
 @WebServlet("/Register")
-
 public class Register extends HttpServlet {
 	Connection con;
 	Statement st;
@@ -31,7 +30,6 @@ public class Register extends HttpServlet {
         	Class.forName("com.mysql.jdbc.Driver");
             con=DriverManager.getConnection("jdbc:mysql://localhost:3306/reg","root","");
             st=con.createStatement();
-         
 	       }
 	       catch(Exception e){
 	    	   System.out.println(e);

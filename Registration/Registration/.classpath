@@ -51,5 +51,6 @@
 	<classpathentry kind="lib" path="D:/Programming Software/apache-tomcat-9.0.43/lib/tomcat-util-scan.jar"/>
 	<classpathentry kind="lib" path="D:/Programming Software/apache-tomcat-9.0.43/lib/tomcat-websocket.jar"/>
 	<classpathentry kind="lib" path="D:/Programming Software/apache-tomcat-9.0.43/lib/websocket-api.jar"/>
+	<classpathentry kind="lib" path="D:/Programming Software/mongo-java-driver-3.12.8.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
