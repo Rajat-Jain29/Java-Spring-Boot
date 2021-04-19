@@ -55,7 +55,6 @@ public class hello {
 		
 	for(int i=0;i<100;i++) {
 		try {  
-			
 			fh = new FileHandler(as);  
 	        logger.addHandler(fh);
 	        SimpleFormatter formatter = new SimpleFormatter();  

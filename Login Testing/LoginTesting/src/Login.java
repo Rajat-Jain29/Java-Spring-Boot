@@ -15,7 +15,7 @@ public class Login extends Thread {
 	URL url;
 
 	public void run() {
-		for(int i=0;i<10;i++) {
+		for(int i=0;i<30;i++) {
 		try {
 		url = new URL("http://localhost:8080/Registration/Login");
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();

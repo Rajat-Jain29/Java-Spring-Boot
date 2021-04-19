@@ -33,12 +33,12 @@ public class Login extends HttpServlet {
         try{
         	
         	
-//        	Class.forName("com.mysql.jdbc.Driver");
-//            con=DriverManager.getConnection("jdbc:mysql://localhost:3306/reg","root","");
-//            st=con.createStatement();
+        	Class.forName("com.mysql.jdbc.Driver");
+            con=DriverManager.getConnection("jdbc:mysql://localhost:3306/reg","root","");
+            st=con.createStatement();
          
         	
-        	MongoClient mc=new MongoClient("localhost",27017);
+//        	MongoClient mc=new MongoClient("localhost",27017);
         	//DB db=(DB) mc.getDatabase("reg");
         	
         	System.out.println("Connected to Database");
@@ -66,23 +66,23 @@ public class Login extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse res) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-//		String pwd=request.getParameter("password");
-//		String email=request.getParameter("email");
-//		System.out.println(email+"  "+pwd);
-//		q="select * from regi where email = '"+email +"' and pwd = '"+pwd+"'";
-//		try {
-//			rs=st.executeQuery(q);
-//			if(rs.next()){
-//			res.getWriter().print("Login Sucessfully");
-//			}
-//			else{
-//				res.getWriter().print("Invalid Credentials");
-//			}
-//			
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		String pwd=request.getParameter("password");
+		String email=request.getParameter("email");
+		System.out.println(email+"  "+pwd);
+		q="select * from regi where email = '"+email +"' and pwd = '"+pwd+"'";
+		try {
+			rs=st.executeQuery(q);
+			if(rs.next()){
+			res.getWriter().print("Login Sucessfully");
+			}
+			else{
+				res.getWriter().print("Invalid Credentials");
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 	}
