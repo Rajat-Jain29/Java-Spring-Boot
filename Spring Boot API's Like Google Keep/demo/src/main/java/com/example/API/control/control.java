@@ -30,6 +30,7 @@ public class control {
 	    	   System.out.println(e);
 	       }   
     }
+	
 	@GetMapping("/")
 	public ArrayList<HashMap<String, String>>  h(HttpServletRequest request, HttpServletResponse res) throws IOException, SQLException {
 		con = DriverManager.getConnection(conn, "root", "");
@@ -37,9 +38,10 @@ public class control {
 		ArrayList<HashMap<String, String>> a=new ArrayList<>();
 		try {
 			
-			q="select * from notes where isdeleted = "+0+" ";
+			q="select * from notes where isdeleted = '"+false+"' ";
 			rs=st.executeQuery(q);
 			while(rs.next()) {
+				
 				HashMap<String, String> map = new HashMap<>();
 				map.put("noteId",""+rs.getInt("noteId") );
 				map.put("title",""+rs.getString("title") );
@@ -50,29 +52,28 @@ public class control {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		return a;
 	} 
 	@DeleteMapping("/{id}")
-	public void g(@PathVariable("id") int id , HttpServletRequest request, HttpServletResponse res) throws Exception {
+	public void deleteNote(@PathVariable("id") int id , HttpServletRequest request, HttpServletResponse res) throws Exception {
 		con = DriverManager.getConnection(conn, "root", "");
 		st=con.createStatement();
-		q="update notes set isdeleted = "+1+"  where noteId = "+id+"";
+		q="update notes set isdeleted = '"+true+"'  where noteId = "+id+"";
 		st.executeUpdate(q);
 		res.getWriter().print("Deleted SuccessFully");
 	}
+	
 	@PostMapping("/create")
 	public void p(HttpServletRequest request, HttpServletResponse res) throws Exception {
-		int id= Integer.parseInt(request.getParameter("noteId"));
 		String title=request.getParameter("title");
 		String note=request.getParameter("note");
 		con = DriverManager.getConnection(conn, "root", "");
 		st=con.createStatement();
-		q="insert into notes values ( "+id+",'"+title+"','"+note+"' )";
+		q="insert into notes (title,note,isdeleted) values ('"+title+"','"+note+"', '"+false+"')";
 		st.executeUpdate(q);
-		
 		res.getWriter().print("Inserted Succesfully");
 	}
+	
 	@PutMapping("/edit/{id}")
 	public void edit(@PathVariable("id") int id, HttpServletRequest request, HttpServletResponse res) throws Exception {
 		String title=request.getParameter("title");
@@ -82,13 +83,32 @@ public class control {
 		st.executeUpdate(q);
 		res.getWriter().print("Updated Succesfully");
 	}
+	
 	@PutMapping("/restore/{id}")
 	public void restore(@PathVariable("id") int id, HttpServletRequest request, HttpServletResponse res) throws Exception {
 		con = DriverManager.getConnection(conn, "root", "");
 		st=con.createStatement();
-		q="update notes set isdeleted = '"+0+"' where noteId = "+id+"  ";
+		q="update notes set isdeleted = '"+false+"' where noteId = "+id+"  ";
 		st.executeUpdate(q);
 		res.getWriter().print("Restored Succesfully");
+	}
+	
+	@PutMapping("/pinned/{id}")
+	public void pinned(@PathVariable("id") int id, HttpServletRequest request, HttpServletResponse res) throws Exception {
+		con = DriverManager.getConnection(conn, "root", "");
+		st=con.createStatement();
+		q="update notes set ispinned = '"+true+"' where noteId = "+id+" ";
+		st.executeUpdate(q);
+		res.getWriter().print("Pinned Succesfully");
+	}
+	
+	@PutMapping("/removepinned/{id}")
+	public void removepinned(@PathVariable("id") int id, HttpServletRequest request, HttpServletResponse res) throws Exception {
+		con = DriverManager.getConnection(conn, "root", "");
+		st=con.createStatement();
+		q="update notes set ispinned = '"+false+"' where noteId = "+id+" ";
+		st.executeUpdate(q);
+		res.getWriter().print("Unpinned Succesfully");
 	}
 	
 	
