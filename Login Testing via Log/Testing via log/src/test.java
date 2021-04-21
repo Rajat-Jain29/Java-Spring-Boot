@@ -1,6 +1,4 @@
 import java.io.BufferedReader;
-
-
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -22,7 +20,6 @@ import java.util.logging.*;
 
 public class test extends Thread{
 	URL url;
-	
 	FileHandler fh;
 	Logger logger = Logger.getLogger("MyLog"); 	
 	Date d=new Date();
@@ -30,7 +27,6 @@ public class test extends Thread{
 	public void run() {
 		try {
 		for(int i=0;i<2;i++) {
-		
 		fh = new FileHandler(as);  
         logger.addHandler(fh);
         SimpleFormatter formatter = new SimpleFormatter();  

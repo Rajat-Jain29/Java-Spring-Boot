@@ -1,6 +1,5 @@
 package com.example.API.control;
 import java.io.IOException;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.logging.*;
-
 @RestController
 public class control {
 	
@@ -37,6 +35,8 @@ public class control {
         	Class.forName("com.mysql.jdbc.Driver");
         	Connection = "jdbc:mysql://localhost:3306/note";
         	logger.info("Connected to Database");
+        	connection = DriverManager.getConnection(Connection, "root", "");
+    		statement=connection.createStatement();
         }
         catch(Exception e){
 	    	   logger.info("Error message : "+e.getMessage());
@@ -45,8 +45,6 @@ public class control {
 	
 	@GetMapping("/")
 	public ArrayList<HashMap<String, String>>show(HttpServletRequest request, HttpServletResponse res) throws IOException, SQLException {
-		connection = DriverManager.getConnection(Connection, "root", "");
-		statement=connection.createStatement();
 		ArrayList<HashMap<String, String>> notesList=new ArrayList<>();
 		try {
 			query="select * from notes where isdeleted = '"+false+"' ";
@@ -66,8 +64,6 @@ public class control {
 	
 	@DeleteMapping("/{id}")
 	public void deleteNote(@PathVariable("id") int id , HttpServletRequest request, HttpServletResponse res) throws Exception {
-		connection = DriverManager.getConnection(Connection, "root", "");
-		statement=connection.createStatement();
 		query="update notes set isdeleted = '"+true+"'  where noteId = "+id+"";
 		statement.executeUpdate(query);
 		res.getWriter().print("Deleted SuccessFully");
@@ -77,8 +73,6 @@ public class control {
 	public void postNote(HttpServletRequest request, HttpServletResponse res) throws Exception {
 		String title=request.getParameter("title");
 		String note=request.getParameter("note");
-		connection = DriverManager.getConnection(Connection, "root", "");
-		statement=connection.createStatement();
 		query="insert into notes (title,note,isdeleted,ispinned) values ('"+title+"','"+note+"', '"+false+"' , '"+false+"')";
 		statement.executeUpdate(query);
 		res.getWriter().print("Inserted Succesfully");
@@ -87,8 +81,6 @@ public class control {
 	@PutMapping("/edit/{id}")
 	public void editNote(@PathVariable("id") int id, HttpServletRequest request, HttpServletResponse res) throws Exception {
 		String title=request.getParameter("title");
-		connection = DriverManager.getConnection(Connection, "root", "");
-		statement=connection.createStatement();
 		query="update notes set title = '"+title+"' where noteId = "+id+"  ";
 		statement.executeUpdate(query);
 		res.getWriter().print("Updated Succesfully");
@@ -96,8 +88,6 @@ public class control {
 	
 	@PutMapping("/restore/{id}")
 	public void restore(@PathVariable("id") int id, HttpServletRequest request, HttpServletResponse res) throws Exception {
-		connection = DriverManager.getConnection(Connection, "root", "");
-		statement=connection.createStatement();
 		query="update notes set isdeleted = '"+false+"' where noteId = "+id+"  ";
 		statement.executeUpdate(query);
 		res.getWriter().print("Restored Succesfully");
@@ -105,8 +95,6 @@ public class control {
 	
 	@PutMapping("/pinned/{id}")
 	public void pinned(@PathVariable("id") int id, HttpServletRequest request, HttpServletResponse res) throws Exception {
-		connection = DriverManager.getConnection(Connection, "root", "");
-		statement=connection.createStatement();
 		query="update notes set ispinned = '"+true+"' where noteId = "+id+" ";
 		statement.executeUpdate(query);
 		res.getWriter().print("Pinned Succesfully");
@@ -114,8 +102,6 @@ public class control {
 	
 	@PutMapping("/removepinned/{id}")
 	public void removepinned(@PathVariable("id") int id, HttpServletRequest request, HttpServletResponse res) throws Exception {
-		connection = DriverManager.getConnection(Connection, "root", "");
-		statement=connection.createStatement();
 		query="update notes set ispinned = '"+false+"' where noteId = "+id+" ";
 		statement.executeUpdate(query);
 		res.getWriter().print("Unpinned Succesfully");
@@ -123,8 +109,6 @@ public class control {
 	
 	@GetMapping("/showpinned")
 	public ArrayList<HashMap<String, String>  >  showpinned(HttpServletRequest request, HttpServletResponse res) throws IOException, SQLException {
-		connection = DriverManager.getConnection(Connection, "root", "");
-		statement=connection.createStatement();
 		ArrayList<HashMap<String, String>> a=new ArrayList<>();
 		try {
 			query="select * from notes where isdeleted = '"+false+"' and ispinned='"+true+"' ";
