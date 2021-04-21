@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,104 +12,134 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.logging.*;
 
 @RestController
 public class control {
-	Connection con;
-	Statement st;
-	String q,conn;
-	ResultSet rs;
-	public control() {
+	
+	Connection connection;
+	Statement statement;
+	String query,Connection;
+	ResultSet resultSet;
+	FileHandler filehandler;
+	Logger logger = Logger.getLogger("MyLog"); 	
+	final String string="log.txt";
+	
+	public control() throws SecurityException, IOException {
         super();
+        filehandler = new FileHandler(string);  
+        logger.addHandler(filehandler);
+        SimpleFormatter formatter = new SimpleFormatter();  
+        filehandler.setFormatter(formatter);
+        logger.setLevel(Level.ALL);
+        logger.addHandler(filehandler);
         try{
         	Class.forName("com.mysql.jdbc.Driver");
-    		conn = "jdbc:mysql://localhost:3306/note";
-        	System.out.println("Connected to Database");
-	       }	       catch(Exception e){
-	    	   System.out.println(e);
-	       }   
+        	Connection = "jdbc:mysql://localhost:3306/note";
+        	logger.info("Connected to Database");
+        }
+        catch(Exception e){
+	    	   logger.info("Error message : "+e.getMessage());
+	       }
     }
 	
 	@GetMapping("/")
-	public ArrayList<HashMap<String, String>>  h(HttpServletRequest request, HttpServletResponse res) throws IOException, SQLException {
-		con = DriverManager.getConnection(conn, "root", "");
-		st=con.createStatement();
-		ArrayList<HashMap<String, String>> a=new ArrayList<>();
+	public ArrayList<HashMap<String, String>>show(HttpServletRequest request, HttpServletResponse res) throws IOException, SQLException {
+		connection = DriverManager.getConnection(Connection, "root", "");
+		statement=connection.createStatement();
+		ArrayList<HashMap<String, String>> notesList=new ArrayList<>();
 		try {
-			
-			q="select * from notes where isdeleted = '"+false+"' ";
-			rs=st.executeQuery(q);
-			while(rs.next()) {
-				
+			query="select * from notes where isdeleted = '"+false+"' ";
+			resultSet=statement.executeQuery(query);
+			while(resultSet.next()) {	
 				HashMap<String, String> map = new HashMap<>();
-				map.put("noteId",""+rs.getInt("noteId") );
-				map.put("title",""+rs.getString("title") );
-				map.put("note",""+rs.getString("note") );	
-				a.add(map);				
+				map.put("noteId",""+resultSet.getInt("noteId") );
+				map.put("title",""+resultSet.getString("title") );
+				map.put("note",""+resultSet.getString("note") );	
+				notesList.add(map);		
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.info("Error message : "+e.getMessage());
 		}
-		return a;
-	} 
+		return notesList;
+	}
+	
 	@DeleteMapping("/{id}")
 	public void deleteNote(@PathVariable("id") int id , HttpServletRequest request, HttpServletResponse res) throws Exception {
-		con = DriverManager.getConnection(conn, "root", "");
-		st=con.createStatement();
-		q="update notes set isdeleted = '"+true+"'  where noteId = "+id+"";
-		st.executeUpdate(q);
+		connection = DriverManager.getConnection(Connection, "root", "");
+		statement=connection.createStatement();
+		query="update notes set isdeleted = '"+true+"'  where noteId = "+id+"";
+		statement.executeUpdate(query);
 		res.getWriter().print("Deleted SuccessFully");
 	}
 	
 	@PostMapping("/create")
-	public void p(HttpServletRequest request, HttpServletResponse res) throws Exception {
+	public void postNote(HttpServletRequest request, HttpServletResponse res) throws Exception {
 		String title=request.getParameter("title");
 		String note=request.getParameter("note");
-		con = DriverManager.getConnection(conn, "root", "");
-		st=con.createStatement();
-		q="insert into notes (title,note,isdeleted) values ('"+title+"','"+note+"', '"+false+"')";
-		st.executeUpdate(q);
+		connection = DriverManager.getConnection(Connection, "root", "");
+		statement=connection.createStatement();
+		query="insert into notes (title,note,isdeleted,ispinned) values ('"+title+"','"+note+"', '"+false+"' , '"+false+"')";
+		statement.executeUpdate(query);
 		res.getWriter().print("Inserted Succesfully");
 	}
 	
 	@PutMapping("/edit/{id}")
-	public void edit(@PathVariable("id") int id, HttpServletRequest request, HttpServletResponse res) throws Exception {
+	public void editNote(@PathVariable("id") int id, HttpServletRequest request, HttpServletResponse res) throws Exception {
 		String title=request.getParameter("title");
-		con = DriverManager.getConnection(conn, "root", "");
-		st=con.createStatement();
-		q="update notes set title = '"+title+"' where noteId = "+id+"  ";
-		st.executeUpdate(q);
+		connection = DriverManager.getConnection(Connection, "root", "");
+		statement=connection.createStatement();
+		query="update notes set title = '"+title+"' where noteId = "+id+"  ";
+		statement.executeUpdate(query);
 		res.getWriter().print("Updated Succesfully");
 	}
 	
 	@PutMapping("/restore/{id}")
 	public void restore(@PathVariable("id") int id, HttpServletRequest request, HttpServletResponse res) throws Exception {
-		con = DriverManager.getConnection(conn, "root", "");
-		st=con.createStatement();
-		q="update notes set isdeleted = '"+false+"' where noteId = "+id+"  ";
-		st.executeUpdate(q);
+		connection = DriverManager.getConnection(Connection, "root", "");
+		statement=connection.createStatement();
+		query="update notes set isdeleted = '"+false+"' where noteId = "+id+"  ";
+		statement.executeUpdate(query);
 		res.getWriter().print("Restored Succesfully");
 	}
 	
 	@PutMapping("/pinned/{id}")
 	public void pinned(@PathVariable("id") int id, HttpServletRequest request, HttpServletResponse res) throws Exception {
-		con = DriverManager.getConnection(conn, "root", "");
-		st=con.createStatement();
-		q="update notes set ispinned = '"+true+"' where noteId = "+id+" ";
-		st.executeUpdate(q);
+		connection = DriverManager.getConnection(Connection, "root", "");
+		statement=connection.createStatement();
+		query="update notes set ispinned = '"+true+"' where noteId = "+id+" ";
+		statement.executeUpdate(query);
 		res.getWriter().print("Pinned Succesfully");
 	}
 	
 	@PutMapping("/removepinned/{id}")
 	public void removepinned(@PathVariable("id") int id, HttpServletRequest request, HttpServletResponse res) throws Exception {
-		con = DriverManager.getConnection(conn, "root", "");
-		st=con.createStatement();
-		q="update notes set ispinned = '"+false+"' where noteId = "+id+" ";
-		st.executeUpdate(q);
+		connection = DriverManager.getConnection(Connection, "root", "");
+		statement=connection.createStatement();
+		query="update notes set ispinned = '"+false+"' where noteId = "+id+" ";
+		statement.executeUpdate(query);
 		res.getWriter().print("Unpinned Succesfully");
 	}
 	
+	@GetMapping("/showpinned")
+	public ArrayList<HashMap<String, String>  >  showpinned(HttpServletRequest request, HttpServletResponse res) throws IOException, SQLException {
+		connection = DriverManager.getConnection(Connection, "root", "");
+		statement=connection.createStatement();
+		ArrayList<HashMap<String, String>> a=new ArrayList<>();
+		try {
+			query="select * from notes where isdeleted = '"+false+"' and ispinned='"+true+"' ";
+			resultSet=statement.executeQuery(query);
+			while(resultSet.next()) {	
+				HashMap<String, String> map = new HashMap<>();
+				map.put("noteId",""+resultSet.getInt("noteId") );
+				map.put("title",""+resultSet.getString("title") );
+				map.put("note",""+resultSet.getString("note") );	
+				a.add(map);		
+			}
+		} catch (Exception e) {
+			logger.info("Error message : "+e.getMessage());
+		}
+		return a;
+	}
 	
-
 }
