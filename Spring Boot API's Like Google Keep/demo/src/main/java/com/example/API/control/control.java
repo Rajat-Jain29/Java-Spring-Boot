@@ -34,9 +34,10 @@ public class control {
         try{
         	Class.forName("com.mysql.jdbc.Driver");
         	Connection = "jdbc:mysql://localhost:3306/note";
-        	logger.info("Connected to Database");
+        	
         	connection = DriverManager.getConnection(Connection, "root", "");
     		statement=connection.createStatement();
+    		logger.info("Connected to Database");
         }
         catch(Exception e){
 	    	   logger.info("Error message : "+e.getMessage());
