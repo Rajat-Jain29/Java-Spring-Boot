@@ -1,6 +1,8 @@
 package com.example.API.control;
 import java.io.IOException;
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
@@ -17,12 +19,11 @@ public class control {
 	
 	Connection connection;
 	Statement statement;
-	String query,Connection;
+	String query,connectionDB;
 	ResultSet resultSet;
 	FileHandler filehandler;
-	Logger logger = Logger.getLogger("MyLog"); 	
-	final String string="log.txt";
-	
+	Logger logger = Logger.getLogger("MyLog");
+	final String string=""+java.time.LocalDate.now()+".txt";
 	public control() throws SecurityException, IOException {
         super();
         filehandler = new FileHandler(string);  
@@ -33,9 +34,8 @@ public class control {
         logger.addHandler(filehandler);
         try{
         	Class.forName("com.mysql.jdbc.Driver");
-        	Connection = "jdbc:mysql://localhost:3306/note";
-        	
-        	connection = DriverManager.getConnection(Connection, "root", "");
+        	connectionDB = "jdbc:mysql://localhost:3306/note";
+        	connection = DriverManager.getConnection(connectionDB, "root", "");
     		statement=connection.createStatement();
     		logger.info("Connected to Database");
         }
