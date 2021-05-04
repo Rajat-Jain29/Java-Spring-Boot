@@ -4,7 +4,7 @@ plugins {
 	id 'java'
 }
 
-group = 'com.example'
+group = 'com.example.Security'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
@@ -13,11 +13,12 @@ repositories {
 }
 
 dependencies {
-	
+
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.security:spring-security-test'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-	compile 'org.apache.httpcomponents:httpclient:4.5.13'
 	runtimeOnly 'mysql:mysql-connector-java:5.1.40'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	

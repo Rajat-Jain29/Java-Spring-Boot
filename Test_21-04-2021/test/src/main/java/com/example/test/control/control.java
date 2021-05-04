@@ -3,6 +3,9 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import javax.management.Query;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +17,7 @@ public class control {
 	Connection connection;
 	Statement statement;
 	String query,Connection;
-	ResultSet resultSet;
+	ResultSet resultSet,rs;
 	FileHandler filehandler;
 	Logger logger = Logger.getLogger("MyLog"); 	
 	final String string="log.txt";
@@ -51,6 +54,7 @@ public class control {
 		statement.executeUpdate(query);
 		res.getWriter().print("Registered Succesfully");
 	}
+	
 	
 	@PostMapping("/mentorLogin")
 	public void Login(HttpServletRequest request, HttpServletResponse res) throws Exception {

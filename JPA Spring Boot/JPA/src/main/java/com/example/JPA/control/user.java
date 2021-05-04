@@ -16,28 +16,42 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class user {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	//@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
+	
 	private String username;
 	private String pwd;
 	private String name;
 	private String email;
 	private String institution;
 	private int contactno;
+	private String roles;
 	public user() {
 		
 	}
 	
 
-	public user(int id, String username, String pwd, String name, String email, String institution, int contactno) {
+	public user(int id,int contactno,   String email, String institution,String name,String pwd,String username ,String roles) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.pwd = pwd;
 		this.name = name;
+		this.roles=roles;
 		this.email = email;
 		this.institution = institution;
 		this.contactno = contactno;
+	}
+	
+
+
+	public String getRoles() {
+		return roles;
+	}
+
+
+	public void setRoles(String roles) {
+		this.roles = roles;
 	}
 
 
