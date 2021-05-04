@@ -26,10 +26,8 @@ import com.example.demo.security.JWTAuthorizationFilter;
 public class security extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
-	JWTAuthorizationFilter filter;
-	
-	
-	
+	JWTAuthorizationFilter jwtfilter;
+
 	@Autowired
 	private UserDetailsService userDetailsService;
 
@@ -63,7 +61,7 @@ public class security extends WebSecurityConfigurerAdapter {
 		.antMatchers("/").permitAll()
 		
 		.and().formLogin();
-		http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+		http.addFilterBefore(jwtfilter, UsernamePasswordAuthenticationFilter.class);
 		
 
 		
