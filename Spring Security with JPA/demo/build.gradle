@@ -14,8 +14,9 @@ repositories {
 
 dependencies {
 
-implementation 'io.jsonwebtoken:jjwt:0.2'
-
+	implementation 'io.jsonwebtoken:jjwt:0.2'
+	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.7.0'
+	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.security:spring-security-test'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
